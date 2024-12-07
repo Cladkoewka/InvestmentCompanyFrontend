@@ -1,0 +1,147 @@
+/* Hero Section */
+.hero {
+    padding: 100px 20px;
+    background: linear-gradient(
+        rgba(0, 0, 0, 0.5),
+        rgba(0, 0, 0, 0.5)
+      ),
+      url('/src/assets/hero.jpg') no-repeat center center/cover;
+    color: var(--color-white);
+    text-align: center;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--color-primary);
+  }
+  
+  .hero-content p {
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+    color: var(--color-light);
+    line-height: 1.6;  /* Увеличивает межстрочный интервал для лучшей читаемости */
+  }
+  
+  /* About Section */
+  .about {
+    padding: 60px 20px;
+    background-color: var(--color-bg);
+    text-align: center;
+  }
+  
+  .about-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+  
+  .about-content h2 {
+    font-size: 2.5rem;
+    color: var(--color-dark);
+  }
+  
+  .about-content p {
+    max-width: 1920px;
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+  
+  .about-img {
+    width: 100%;
+    max-width: 100%;
+    max-height: 550px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px var(--color-shadow-light);
+  }
+  
+  /* Services Section */
+  .services {
+    padding: 60px 20px;
+    background-color: var(--color-primary);
+    text-align: center;
+  }
+  
+  .services h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--color-dark);
+  }
+
+  .services p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    color: var(--color-text);
+  }
+  
+  .services-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-items: center;
+  }
+  
+  /* Stats Section */
+  .stats {
+    padding: 60px 20px;
+    background-color: var(--color-bg);
+    text-align: center;
+  }
+  
+  .stats h2 {
+    font-size: 2.5rem;
+    margin-bottom: 40px;
+    color: var(--color-dark);
+  }
+
+  .stats p {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+    color: var(--color-text);
+  }
+  
+  .stats-grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    justify-items: center;
+  }
+  
+  /* Card Component */
+  .service-card {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px var(--color-shadow-light);
+    overflow: hidden;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .service-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 30px var(--color-shadow-heavy);
+  }
+  
+  .service-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  .service-card h3 {
+    margin: 15px 0;
+    font-size: 1.5rem;
+    color: var(--color-dark);
+  }
+  
+  .service-card p {
+    margin-bottom: 15px;
+    font-size: 1rem;
+    color: var(--color-text);
+    line-height: 1.4;
+  }
+  

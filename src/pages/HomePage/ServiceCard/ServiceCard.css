@@ -1,0 +1,34 @@
+.service-card {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: var(--color-light);
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+  }
+  
+  .service-card h3 {
+    margin: 0;
+    font-size: 1.7rem;
+    color: var(--color-primary);
+  }
+  
+  .service-card p {
+    font-size: 1rem;
+    margin: 5px 0 0;
+    color: var(--color-light);
+  }
+  
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
