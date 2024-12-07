@@ -22,14 +22,7 @@ const LoginPage = () => {
       const token = response.data.token;
       login(token);
 
-      // Redirect based on role
-      const decodedToken = jwtDecode(token);
-      const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-      if (role === "Admin") {
-        navigate("/adminDashboard");
-      } else {
-        navigate("/userDashboard");
-      }
+      navigate("/");
     } catch (error) {
       console.error("Ошибка входа:", error);
     }

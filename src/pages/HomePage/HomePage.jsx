@@ -19,14 +19,14 @@ const HomePage = () => {
       backgroundImage: consultingIcon,
     },
     {
-      title: 'Project Management',
-      description: 'Expert management of investment projects for better returns. From planning to execution, we handle it all.',
-      backgroundImage: projectIcon,
-    },
-    {
       title: 'Risk Assessment',
       description: 'Identifying and minimizing risks to protect your investments. We ensure your portfolio is as secure as possible.',
       backgroundImage: riskIcon,
+    },
+    {
+      title: 'Project Management',
+      description: 'Expert management of investment projects for better returns. From planning to execution, we handle it all.',
+      backgroundImage: projectIcon,
     },
   ];
 
@@ -37,14 +37,14 @@ const HomePage = () => {
       backgroundImage: successIcon,
     },
     {
-      title: '500+',
-      description: 'Clients Served. Join the growing list of satisfied investors who trust us with their financial growth.',
-      backgroundImage: clientsIcon,
-    },
-    {
       title: '50%',
       description: 'Average Return on Investment. A testament to our commitment to maximizing profitability for our clients.',
       backgroundImage: roiIcon,
+    },
+    {
+      title: '500+',
+      description: 'Clients Served. Join the growing list of satisfied investors who trust us with their financial growth.',
+      backgroundImage: clientsIcon,
     },
   ];
 
@@ -58,7 +58,7 @@ const HomePage = () => {
             Our platform connects investors with profitable projects across various industries.
 
             Whether you're a beginner or a seasoned investor, we offer tailored solutions to fit your needs.
-            
+
             Maximize your returns with expert advice, innovative solutions, and personalized investment strategies.
           </p>
         </div>

@@ -4,8 +4,9 @@ import { AuthProvider } from "./context/AuthContext";
 import NavBar from './components/NavBar/NavBar';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
-import AssetsPage from './pages/AssetsPage';
+import AssetsPage from './pages/AssetsPage/AssetsPage';
 import CustomersPage from './pages/CustomersPage';
+import Footer from './components/Footer/Footer';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/assets" element={<AssetsPage />} />
             <Route path="/customers" element={<CustomersPage />} />
           </Routes>
+          <Footer />
         </div>
       </Router>
     </AuthProvider>
