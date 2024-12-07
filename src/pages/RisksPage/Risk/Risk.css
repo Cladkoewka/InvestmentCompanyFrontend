@@ -1,0 +1,106 @@
+.risk-item {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px var(--color-shadow-light);
+    padding: 1rem;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение содержимого */
+}
+
+.risk-item span {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    font-weight: bold;
+    margin-bottom: 0.5rem; /* Отступ снизу для отображаемого названия */
+    margin-left: 1rem;
+}
+
+.risk-item select {
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.risk-item select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.risk-item button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    margin-left: 1rem; /* Отступ между кнопками */
+}
+
+.risk-item button:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.risk-item input {
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    margin-right: 1rem;
+}
+
+.risk-item input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.risk-item .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem; /* Отступ сверху для кнопок */
+}
+
+.risk-list {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--color-light-gray);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--color-shadow-light);
+    width: 100%;
+}
+
+.risk-list h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: bold;
+}
+
+.risk-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.risk-list ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.risk-list ul li:last-child {
+    border-bottom: none; /* Убираем линию для последнего элемента */
+}
+
+.risk-list p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}

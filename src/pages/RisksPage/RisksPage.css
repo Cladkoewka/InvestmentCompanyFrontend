@@ -1,0 +1,38 @@
+input {
+    margin-left: 1rem;
+    }
+    
+h1 {
+    text-align: center;
+}
+
+.add-risk-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    }
+
+.login-message {
+text-align: center;
+font-size: 1.2rem;
+color: var(--color-text);
+margin-top: 20px;
+}
+     
+
+select {
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+select {
+    outline: none;
+    border-color: var(--color-primary);
+}
+  
