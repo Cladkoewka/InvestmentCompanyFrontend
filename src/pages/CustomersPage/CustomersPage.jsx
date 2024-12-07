@@ -92,7 +92,7 @@ const CustomersPage = () => {
   };
 
   return (
-    <div className="main-content">
+    <div>
       <h1>Customers</h1>
       {!isAuthenticated ? (
         <div className="login-message">

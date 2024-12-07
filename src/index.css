@@ -316,12 +316,42 @@ to {
 animation: fadeIn 1s ease-out;
 }
 
-/* Основной контейнер с содержимым */
+html, body, #root {
+    height: 100%;
+    margin: 0;
+  }
+  
+
 .main-content {
     display: flex;
     flex-direction: column;
     height: 100%;
-    margin-top: 80px;
+    margin-top: 64px;
+}
+
+footer {
+    margin-top: auto; /* Сдвигаем футер к низу, если контента недостаточно */
+    padding: 1rem 2rem;
+    background-color: var(--color-dark);
+    color: var(--color-white);
+    text-align: center;
   }
 
+.fade-enter {
+opacity: 0;
+}
+
+.fade-enter-active {
+opacity: 1;
+transition: opacity 1s ease-in-out;
+}
+
+.fade-exit {
+opacity: 1;
+}
+
+.fade-exit-active {
+opacity: 0;
+transition: opacity 1s ease-in-out;
+}
   

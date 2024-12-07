@@ -91,7 +91,7 @@ const AssetsPage = () => {
   };
 
   return (
-    <div className="main-content">
+    <div>
       <h1>Assets</h1>
       {!isAuthenticated ? (
         <div className="login-message">

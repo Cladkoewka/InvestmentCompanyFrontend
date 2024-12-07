@@ -13,6 +13,7 @@ const NavBar = () => {
         <Link className="navbar__link" to="/assets">Assets</Link>
         <Link className="navbar__link" to="/customers">Customers</Link>
         <Link className="navbar__link" to="/departments">Departments</Link>
+        <Link className="navbar__link" to="/employees">Employees</Link>
       </div>
       <div>
         {isLoggedIn ? (

@@ -16,19 +16,35 @@ const DepartmentPage = () => {
   useEffect(() => {
     const fetchDepartments = async () => {
       if (!isAuthenticated) return;
-
+  
       try {
         const response = await axios.get("http://localhost:5149/api/department", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setDepartments(response.data);
+        const departmentsWithEmployees = await Promise.all(
+          response.data.map(async (department) => {
+            const employeeResponse = await axios.get(
+              `http://localhost:5149/api/employee/by-department/${department.id}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            );
+            return {
+              ...department,
+              employees: employeeResponse.data,
+            };
+          })
+        );
+        setDepartments(departmentsWithEmployees);
       } catch (error) {
-        console.error("Error fetching departments:", error);
+        console.error("Error fetching departments or employees:", error);
       }
     };
-
+  
     fetchDepartments();
   }, [isAuthenticated, token]);
 
@@ -92,7 +108,7 @@ const DepartmentPage = () => {
   };
 
   return (
-    <div className="main-content">
+    <div>
       <h1>Departments</h1>
       {!isAuthenticated ? (
         <div className="login-message">
