@@ -1,0 +1,67 @@
+/* Editor.css */
+input {
+    margin-left: 1rem;
+  }
+  
+  h1 {
+    text-align: center;
+  }
+  
+  .add-editor-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .login-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--color-text);
+    margin-top: 20px;
+  }
+  
+  .editor-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+    border-radius: 8px;
+  }
+  
+  .editor-item span {
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  .button-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  button {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  input[type="text"] {
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+  }
+  
