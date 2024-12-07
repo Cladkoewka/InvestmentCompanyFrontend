@@ -5,7 +5,8 @@ import NavBar from './components/NavBar/NavBar';
 import HomePage from './pages/HomePage/HomePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import AssetsPage from './pages/AssetsPage/AssetsPage';
-import CustomersPage from './pages/CustomersPage';
+import CustomersPage from './pages/CustomersPage/CustomersPage';
+import DepartmentPage from './pages/DepartmentPage/DepartmentPage';
 import Footer from './components/Footer/Footer';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/assets" element={<AssetsPage />} />
             <Route path="/customers" element={<CustomersPage />} />
+            <Route path="/departments" element={<DepartmentPage />} />
           </Routes>
           <Footer />
         </div>
