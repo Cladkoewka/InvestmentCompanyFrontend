@@ -12,6 +12,7 @@ import EmployeesPage from './pages/EmployeesPage/EmployeesPage';
 import RisksPage from './pages/RisksPage/RisksPage';
 import EditorPage from './pages/EditorPage/EditorPage';
 import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
+import FunctionalPage from './pages/FunctionalPage/FunctionalPage';
 import Footer from './components/Footer/Footer';
 
 const AnimatedRoutes = () => {
@@ -34,6 +35,7 @@ const AnimatedRoutes = () => {
           <Route path="/employees" element={<EmployeesPage />} />
           <Route path="/risks" element={<RisksPage />} />
           <Route path="/editors" element={<EditorPage />} />
+          <Route path="/functional" element={<FunctionalPage />} />
         </Routes>
       </CSSTransition>
     </SwitchTransition>
