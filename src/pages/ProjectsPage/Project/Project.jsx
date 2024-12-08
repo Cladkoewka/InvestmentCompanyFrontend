@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import "./Project.css";
 
-const Project = ({ project, customers, editors, isAdmin, onEdit, onDelete }) => {
+const Project = ({ project, customers, editors, risks, departments, assets, isAdmin, onEdit, onDelete }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedProject, setEditedProject] = useState(project);
 
   const handleSaveEdit = () => {
     onEdit(editedProject);
     setIsEditing(false);
+  };
+
+  const handleSelectionChange = (e, setter) => {
+    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+    setter(selectedValues);
   };
 
   return (
@@ -76,7 +81,46 @@ const Project = ({ project, customers, editors, isAdmin, onEdit, onDelete }) => 
               </option>
             ))}
           </select>
-          
+
+          <label>Risks:</label>
+          <select
+            multiple
+            value={editedProject.riskIds}
+            onChange={(e) => handleSelectionChange(e, (values) => setEditedProject({ ...editedProject, riskIds: values }))}
+          >
+            {risks.map((risk) => (
+              <option key={risk.id} value={risk.id}>
+                {risk.type}
+              </option>
+            ))}
+          </select>
+
+          <label>Departments:</label>
+          <select
+            multiple
+            value={editedProject.departmentIds}
+            onChange={(e) => handleSelectionChange(e, (values) => setEditedProject({ ...editedProject, departmentIds: values }))}
+          >
+            {departments.map((department) => (
+              <option key={department.id} value={department.id}>
+                {department.name}
+              </option>
+            ))}
+          </select>
+
+          <label>Assets:</label>
+          <select
+            multiple
+            value={editedProject.assetIds}
+            onChange={(e) => handleSelectionChange(e, (values) => setEditedProject({ ...editedProject, assetIds: values }))}
+          >
+            {assets.map((asset) => (
+              <option key={asset.id} value={asset.id}>
+                {asset.name}
+              </option>
+            ))}
+          </select>
+
           <div className="button-container">
             <button onClick={handleSaveEdit}>Save</button>
             <button onClick={() => setIsEditing(false)}>Cancel</button>
@@ -84,7 +128,6 @@ const Project = ({ project, customers, editors, isAdmin, onEdit, onDelete }) => 
         </>
       ) : (
         <>
-          <span className="project-details">
           <div>
             <strong>Name:</strong> {project.name}
           </div>
@@ -106,7 +149,41 @@ const Project = ({ project, customers, editors, isAdmin, onEdit, onDelete }) => 
           <div>
             <strong>Editor:</strong> {editors.find((e) => e.id === project.editorId)?.fullName || "Unknown"}
           </div>
-          </span>
+          <div>
+            <strong>Assets:</strong>
+            <ul>
+              {assets
+                .filter((asset) => project.assetIds && project.assetIds.includes(asset.id)) 
+                .map((asset) => (
+                  <li key={asset.id}>{asset.name}</li>
+                ))}
+            </ul>
+          </div>
+
+          <div>
+            <strong>Departments:</strong>
+            <ul>
+              {departments
+                .filter((department) => project.departmentIds && project.departmentIds.includes(department.id)) 
+                .map((department) => (
+                  <li key={department.id}>{department.name}</li>
+                ))}
+            </ul>
+          </div>
+
+          <div>
+            <strong>Risks:</strong>
+            <ul>
+              {risks
+                .filter((risk) => project.riskIds && project.riskIds.includes(risk.id)) 
+                .map((risk) => (
+                  <li key={risk.id}>{risk.type}</li>
+                ))}
+            </ul>
+          </div>
+
+
+
           {isAdmin && (
             <div className="button-container">
               <button onClick={() => setIsEditing(true)}>Edit</button>
@@ -120,185 +197,3 @@ const Project = ({ project, customers, editors, isAdmin, onEdit, onDelete }) => 
 };
 
 export default Project;
-
-
-/*
-  return (
-    <div className="project-item">
-      {isEditing ? (
-        <>
-          <div className="edit-field">
-            <label htmlFor="name">Project Name:</label>
-            <input
-              id="name"
-              type="text"
-              value={newName}
-              onChange={(e) => setNewName(e.target.value)}
-            />
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="status">Status:</label>
-            <input
-              id="status"
-              type="text"
-              value={newStatus}
-              onChange={(e) => setNewStatus(e.target.value)}
-            />
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="profit">Profit ($):</label>
-            <input
-              id="profit"
-              type="number"
-              value={newProfit}
-              onChange={(e) => setNewProfit(e.target.value)}
-            />
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="cost">Cost ($):</label>
-            <input
-              id="cost"
-              type="number"
-              value={newCost}
-              onChange={(e) => setNewCost(e.target.value)}
-            />
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="deadline">Deadline:</label>
-            <input
-              id="deadline"
-              type="date"
-              value={newDeadline}
-              onChange={(e) => setNewDeadline(e.target.value)}
-            />
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="customer">Customer:</label>
-            <select
-              id="customer"
-              value={newCustomerId}
-              onChange={(e) => setNewCustomerId(e.target.value)}
-            >
-              {customers.map((customer) => (
-                <option key={customer.id} value={customer.id}>
-                  {customer.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="editor">Editor:</label>
-            <select
-              id="editor"
-              value={newEditorId}
-              onChange={(e) => setNewEditorId(e.target.value)}
-            >
-              {editors.map((editor) => (
-                <option key={editor.id} value={editor.id}>
-                  {editor.fullName}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div className="edit-field">
-            <label htmlFor="risks">Risks:</label>
-            <select
-              id="risks"
-              multiple
-              value={newRisks}
-              onChange={(e) => handleSelectionChange(e, setNewRisks)}
-            >
-              {risks.map((risk) => (
-                <option key={risk.id} value={risk.id}>
-                  {risk.type}
-                </option>
-              ))}
-            </select>
-          </div>
-
-        <div className="edit-field">
-          <label htmlFor="departments">Departments:</label>
-          <select
-            id="departments"
-            multiple
-            value={newDepartments}
-            onChange={(e) => handleSelectionChange(e, setNewDepartments)} // Use newDepartments here
-          >
-            {departments.map((department) => (
-              <option key={department.id} value={department.id}>
-                {department.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="edit-field">
-          <label htmlFor="assets">Assets:</label>
-          <select
-            id="assets"
-            multiple
-            value={newAssets}
-            onChange={(e) => handleSelectionChange(e, setNewAssets)} // Use newAssets here
-          >
-            {assets.map((asset) => (
-              <option key={asset.id} value={asset.id}>
-                {asset.name}
-              </option>
-            ))}
-          </select>
-        </div>
-
-          <button onClick={handleSaveEdit}>Save</button>
-        </>
-      ) : (
-        <>
-          <span>Project Name: {project.name}</span>
-          <span>Status: {project.status}</span>
-          <span>Profit: {project.profit}$</span>
-          <span>Cost: {project.cost}$</span>
-          <span>Deadline: {new Date(project.deadline).toLocaleDateString()}</span>
-          <span>Customer: {customers.find(c => c.id === newCustomerId)?.name || "N/A"}</span>
-          <span>Editor: {editors.find(editor => editor.id === newEditorId)?.fullName || "N/A"}</span>
-          <div className="related-info">
-          <p>
-            <strong>Risks:</strong>{" "}
-            {risks
-              .filter(risk => project.risks?.includes(risk.id))
-              .map(risk => risk.type)
-              .join(", ") || "N/A"}
-          </p>
-          <p>
-            <strong>Departments:</strong>{" "}
-            {departments
-              .filter(department => project.departments?.includes(department.id))
-              .map(department => department.name)
-              .join(", ") || "N/A"}
-          </p>
-          <p>
-            <strong>Assets:</strong>{" "}
-            {assets
-              .filter(asset => project.assets?.includes(asset.id))
-              .map(asset => asset.name)
-              .join(", ") || "N/A"}
-          </p>
-        </div>
-
-          {isAdmin && (
-            <div className="button-container">
-              <button onClick={() => setIsEditing(true)}>Edit</button>
-              <button onClick={() => onDelete(project.id)}>Delete</button>
-            </div>
-          )}
-        </>
-      )}
-    </div>
-  );
-};
-*/

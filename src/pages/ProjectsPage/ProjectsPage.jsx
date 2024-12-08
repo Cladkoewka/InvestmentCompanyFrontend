@@ -8,6 +8,9 @@ const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [editors, setEditors] = useState([]);
+  const [assets, setAssets] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [risks, setRisks] = useState([]);
   const [newProject, setNewProject] = useState({
     name: "",
     status: "",
@@ -27,7 +30,8 @@ const ProjectsPage = () => {
       if (!isAuthenticated) return;
 
       try {
-        const [projectsResponse, customersResponse, editorsResponse] = await Promise.all([
+        // Загружаем проекты, клиентов, редакторов, активы, департаменты и риски
+        const [projectsResponse, customersResponse, editorsResponse, assetsResponse, departmentsResponse, risksResponse] = await Promise.all([
           axios.get("http://localhost:5149/api/project", {
             headers: { Authorization: `Bearer ${token}` },
           }),
@@ -37,11 +41,62 @@ const ProjectsPage = () => {
           axios.get("http://localhost:5149/api/editor", {
             headers: { Authorization: `Bearer ${token}` },
           }),
+          axios.get("http://localhost:5149/api/asset", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get("http://localhost:5149/api/department", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
+          axios.get("http://localhost:5149/api/risk", {
+            headers: { Authorization: `Bearer ${token}` },
+          }),
         ]);
 
         setProjects(projectsResponse.data);
         setCustomers(customersResponse.data);
         setEditors(editorsResponse.data);
+        setAssets(assetsResponse.data);
+        setDepartments(departmentsResponse.data);
+        setRisks(risksResponse.data);
+        
+        // Загружаем связанные данные для каждого проекта
+        const projectAssetsPromises = projectsResponse.data.map(project =>
+          axios.get(`http://localhost:5149/api/projectassetlink/project/${project.id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        );
+        const projectDepartmentsPromises = projectsResponse.data.map(project =>
+          axios.get(`http://localhost:5149/api/projectdepartmentlink/project/${project.id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        );
+        const projectRisksPromises = projectsResponse.data.map(project =>
+          axios.get(`http://localhost:5149/api/projectrisklink/project/${project.id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        );
+
+        
+
+        // Ждём загрузки всех связанных данных
+        const [projectAssets, projectDepartments, projectRisks] = await Promise.all([
+          Promise.all(projectAssetsPromises),
+          Promise.all(projectDepartmentsPromises),
+          Promise.all(projectRisksPromises),
+        ]);
+        
+        
+
+        // Обновляем проекты с добавленными данными
+        const updatedProjects = projectsResponse.data.map((project, index) => ({
+          ...project,
+          assetIds: projectAssets[index].data.assetIds,
+          departmentIds: projectDepartments[index].data.deparmentIds,
+          riskIds: projectRisks[index].data.riskIds,
+        }));
+
+        setProjects(updatedProjects);
+        
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -168,6 +223,42 @@ const ProjectsPage = () => {
                   </option>
                 ))}
               </select>
+              <select
+                value={newProject.assetIds}
+                onChange={(e) => setNewProject({ ...newProject, assetIds: e.target.value })}
+                multiple
+                >
+                {assets.map((asset) => (
+                    <option key={asset.id} value={asset.id}>
+                    {asset.name}
+                    </option>
+                ))}
+                </select>
+
+                <select
+                value={newProject.departmentIds}
+                onChange={(e) => setNewProject({ ...newProject, departmentIds: e.target.value })}
+                multiple
+                >
+                {departments.map((department) => (
+                    <option key={department.id} value={department.id}>
+                    {department.name}
+                    </option>
+                ))}
+                </select>
+
+                <select
+                value={newProject.riskIds}
+                onChange={(e) => setNewProject({ ...newProject, riskIds: e.target.value })}
+                multiple
+                >
+                {risks.map((risk) => (
+                    <option key={risk.id} value={risk.id}>
+                    {risk.type}
+                    </option>
+                ))}
+                </select>
+
               <button onClick={handleAddProject}>Add Project</button>
             </div>
           )}
@@ -178,6 +269,9 @@ const ProjectsPage = () => {
                   project={project}
                   customers={customers}
                   editors={editors}
+                  assets={assets}
+                  departments={departments}
+                  risks={risks}
                   isAdmin={isAdmin}
                   onEdit={handleEditProject}
                   onDelete={handleDeleteProject}
@@ -192,40 +286,3 @@ const ProjectsPage = () => {
 };
 
 export default ProjectsPage;
-
-
-/*
-// 1. Получаем связанные Id
-      const [assetIdsResponse, departmentIdsResponse, riskIdsResponse] = await Promise.all([
-        axios.get(http://localhost:5149/api/projectassetlink/project/${project.id}, {
-          headers: { Authorization: Bearer ${token} },
-        }),
-        axios.get(http://localhost:5149/api/projectdepartmentlink/project/${project.id}, {
-          headers: { Authorization: Bearer ${token} },
-        }),
-        axios.get(http://localhost:5149/api/projectrisklink/project/${project.id}, {
-          headers: { Authorization: Bearer ${token} },
-        }),
-      ]);
-
-      const assetIds = assetIdsResponse.data.AssetIds || [];
-      console.debug(assetIds);
-      const departmentIds = departmentIdsResponse.data.DepartmentIds || [];
-      const riskIds = riskIdsResponse.data.RiskIds || [];
-
-      // 2. Получаем полные данные для связанных сущностей
-      const [assetsResponse, departmentsResponse, risksResponse] = await Promise.all([
-        axios.get("http://localhost:5149/api/asset", {
-          params: { ids: assetIds },
-          headers: { Authorization: Bearer ${token} },
-        }),
-        axios.get("http://localhost:5149/api/department", {
-          params: { ids: departmentIds },
-          headers: { Authorization: Bearer ${token} },
-        }),
-        axios.get("http://localhost:5149/api/risk", {
-          params: { ids: riskIds },
-          headers: { Authorization: Bearer ${token} },
-        }),
-      ]);
-      */
