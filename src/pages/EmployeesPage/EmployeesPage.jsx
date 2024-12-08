@@ -83,7 +83,7 @@ const EmployeesPage = () => {
   };
 
   return (
-    <div>
+    <div className="employees-page">
       <h1>Employees</h1>
       {!isAuthenticated ? (
         <div className="login-message">

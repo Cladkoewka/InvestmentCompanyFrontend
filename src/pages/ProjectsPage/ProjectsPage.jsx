@@ -249,7 +249,7 @@ const handleEditProject = async (updatedProject) => {
   };
 
   return (
-    <div>
+    <div className="projects-page">
       <h1>Projects</h1>
       {!isAuthenticated ? (
         <div className="login-message">
@@ -259,13 +259,17 @@ const handleEditProject = async (updatedProject) => {
         <>
           {isAdmin && (
             <div className="add-project-form">
+              <label htmlFor="project-name">Project Name</label>
               <input
+                id="project-name"
                 type="text"
                 placeholder="Project Name"
                 value={newProject.name}
                 onChange={(e) => setNewProject({ ...newProject, name: e.target.value })}
               />
+              <label htmlFor="status">Status</label>
               <select
+                id="status"
                 value={newProject.status}
                 onChange={(e) => setNewProject({ ...newProject, status: e.target.value })}
               >
@@ -275,25 +279,33 @@ const handleEditProject = async (updatedProject) => {
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
               </select>
-
+              <label htmlFor="profit">Profit</label>
               <input
+                id="profit"
                 type="number"
                 placeholder="Profit"
                 value={newProject.profit}
                 onChange={(e) => setNewProject({ ...newProject, profit: e.target.value })}
               />
+              <label htmlFor="cost">Cost</label>
               <input
+                id="cost"
                 type="number"
                 placeholder="Cost"
                 value={newProject.cost}
                 onChange={(e) => setNewProject({ ...newProject, cost: e.target.value })}
               />
+              <label htmlFor="date">Deadline</label>
               <input
+                id="date"
                 type="date"
                 value={newProject.deadline}
                 onChange={(e) => setNewProject({ ...newProject, deadline: e.target.value })}
               />
+  
+              <label htmlFor="customer-select">Customer</label>
               <select
+                id="customer-select"
                 value={newProject.customerId}
                 onChange={(e) => setNewProject({ ...newProject, customerId: e.target.value })}
               >
@@ -304,7 +316,10 @@ const handleEditProject = async (updatedProject) => {
                   </option>
                 ))}
               </select>
+  
+              <label htmlFor="editor-select">Editor</label>
               <select
+                id="editor-select"
                 value={newProject.editorId}
                 onChange={(e) => setNewProject({ ...newProject, editorId: e.target.value })}
               >
@@ -315,52 +330,67 @@ const handleEditProject = async (updatedProject) => {
                   </option>
                 ))}
               </select>
+  
+              {/* Множественный выбор assets */}
+              <label htmlFor="asset-select">Assets</label>
               <select
+                id="asset-select"
                 value={newProject.assetIds}
-                onChange={(e) => setNewProject({
+                onChange={(e) =>
+                  setNewProject({
                     ...newProject,
-                    assetIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
-                })}
+                    assetIds: Array.from(e.target.selectedOptions, (option) => Number(option.value)),
+                  })
+                }
                 multiple
-                >
+              >
                 {assets.map((asset) => (
-                    <option key={asset.id} value={asset.id}>
+                  <option key={asset.id} value={asset.id}>
                     {asset.name}
-                    </option>
+                  </option>
                 ))}
-                </select>
-
-                <select
+              </select>
+  
+              {/* Множественный выбор departments */}
+              <label htmlFor="department-select">Departments</label>
+              <select
+                id="department-select"
                 value={newProject.departmentIds}
-                onChange={(e) => setNewProject({
+                onChange={(e) =>
+                  setNewProject({
                     ...newProject,
-                    departmentIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
-                })}
+                    departmentIds: Array.from(e.target.selectedOptions, (option) => Number(option.value)),
+                  })
+                }
                 multiple
-                >
+              >
                 {departments.map((department) => (
-                    <option key={department.id} value={department.id}>
+                  <option key={department.id} value={department.id}>
                     {department.name}
-                    </option>
+                  </option>
                 ))}
-                </select>
-
-                <select
+              </select>
+  
+              {/* Множественный выбор risks */}
+              <label htmlFor="risk-select">Risks</label>
+              <select
+                id="risk-select"
                 value={newProject.riskIds}
-                onChange={(e) => setNewProject({
+                onChange={(e) =>
+                  setNewProject({
                     ...newProject,
-                    riskIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
-                })}
+                    riskIds: Array.from(e.target.selectedOptions, (option) => Number(option.value)),
+                  })
+                }
                 multiple
-                >
+              >
                 {risks.map((risk) => (
-                    <option key={risk.id} value={risk.id}>
+                  <option key={risk.id} value={risk.id}>
                     {risk.type}
-                    </option>
+                  </option>
                 ))}
-                </select>
-
-
+              </select>
+  
               <button onClick={handleAddProject}>Add Project</button>
             </div>
           )}
