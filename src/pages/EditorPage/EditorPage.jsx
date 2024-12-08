@@ -5,6 +5,7 @@ import Editor from "./Editor/Editor";
 import './EditorPage.css';
 
 const EditorPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [editors, setEditors] = useState([]);
   const [newFullName, setNewFullName] = useState("");
   const [newEmail, setNewEmail] = useState("");
@@ -20,7 +21,7 @@ const EditorPage = () => {
       if (!isAuthenticated) return;
 
       try {
-        const response = await axios.get("http://localhost:5149/api/editor", {
+        const response = await axios.get(`${API_BASE_URL}/editor`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -42,7 +43,7 @@ const EditorPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/editor",
+        `${API_BASE_URL}/editor`,
         { fullName: newFullName, email: newEmail, phoneNumber: newPhoneNumber },
         {
           headers: {
@@ -62,7 +63,7 @@ const EditorPage = () => {
   const handleEditEditor = async (updatedEditor) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/editor/${updatedEditor.id}`,
+        `${API_BASE_URL}/editor/${updatedEditor.id}`,
         updatedEditor,
         {
           headers: {
@@ -82,7 +83,7 @@ const EditorPage = () => {
 
   const handleDeleteEditor = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/editor/${id}`, {
+      await axios.delete(`${API_BASE_URL}/editor/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

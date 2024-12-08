@@ -5,6 +5,7 @@ import Risk from "./Risk/Risk";
 import './RisksPage.css';
 
 const RisksPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [risks, setRisks] = useState([]);
   const [newRisk, setNewRisk] = useState({ type: "", grade: "" });
   const { role } = useAuth();
@@ -18,7 +19,7 @@ const RisksPage = () => {
       if (!isAuthenticated) return;
 
       try {
-        const response = await axios.get("http://localhost:5149/api/risk", {
+        const response = await axios.get(`${API_BASE_URL}/risk`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -40,7 +41,7 @@ const RisksPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/risk",
+        `${API_BASE_URL}/risk`,
         newRisk,
         {
           headers: {
@@ -58,7 +59,7 @@ const RisksPage = () => {
   const handleEditRisk = async (updatedRisk) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/risk/${updatedRisk.id}`,
+        `${API_BASE_URL}/risk/${updatedRisk.id}`,
         updatedRisk,
         {
           headers: {
@@ -78,7 +79,7 @@ const RisksPage = () => {
 
   const handleDeleteRisk = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/risk/${id}`, {
+      await axios.delete(`${API_BASE_URL}/risk/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

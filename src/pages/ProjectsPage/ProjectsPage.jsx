@@ -5,6 +5,7 @@ import Project from "./Project/Project";
 import "./ProjectsPage.css";
 
 const ProjectsPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [projects, setProjects] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [editors, setEditors] = useState([]);
@@ -32,22 +33,22 @@ const ProjectsPage = () => {
       try {
         // Загружаем проекты, клиентов, редакторов, активы, департаменты и риски
         const [projectsResponse, customersResponse, editorsResponse, assetsResponse, departmentsResponse, risksResponse] = await Promise.all([
-          axios.get("http://localhost:5149/api/project", {
+          axios.get(`${API_BASE_URL}/project`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/customer", {
+          axios.get(`${API_BASE_URL}/customer`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/editor", {
+          axios.get(`${API_BASE_URL}/editor`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/asset", {
+          axios.get(`${API_BASE_URL}/asset`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/department", {
+          axios.get(`${API_BASE_URL}/department`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/risk", {
+          axios.get(`${API_BASE_URL}/risk`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -61,17 +62,17 @@ const ProjectsPage = () => {
         
         // Загружаем связанные данные для каждого проекта
         const projectAssetsPromises = projectsResponse.data.map(project =>
-          axios.get(`http://localhost:5149/api/projectassetlink/project/${project.id}`, {
+          axios.get(`${API_BASE_URL}/projectassetlink/project/${project.id}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
         );
         const projectDepartmentsPromises = projectsResponse.data.map(project =>
-          axios.get(`http://localhost:5149/api/projectdepartmentlink/project/${project.id}`, {
+          axios.get(`${API_BASE_URL}/projectdepartmentlink/project/${project.id}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
         );
         const projectRisksPromises = projectsResponse.data.map(project =>
-          axios.get(`http://localhost:5149/api/projectrisklink/project/${project.id}`, {
+          axios.get(`${API_BASE_URL}/projectrisklink/project/${project.id}`, {
             headers: { Authorization: `Bearer ${token}` },
           })
         );
@@ -174,7 +175,7 @@ const handleEditProject = async (updatedProject) => {
     try {
         // Сначала редактируем проект
         await axios.put(
-            `http://localhost:5149/api/project/${updatedProject.id}`,
+            `${API_BASE_URL}/project/${updatedProject.id}`,
             updatedProject,
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -182,15 +183,15 @@ const handleEditProject = async (updatedProject) => {
         // Удаляем все старые связи
         await Promise.all([
             // Удаляем связи с активами
-            axios.delete(`http://localhost:5149/api/projectassetlink/project/${updatedProject.id}`, {
+            axios.delete(`${API_BASE_URL}/projectassetlink/project/${updatedProject.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
             // Удаляем связи с департаментами
-            axios.delete(`http://localhost:5149/api/projectrisklink/project/${updatedProject.id}`, {
+            axios.delete(`${API_BASE_URL}/projectrisklink/project/${updatedProject.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
             // Удаляем связи с рисками
-            axios.delete(`http://localhost:5149/api/projectdepartmentlink/project/${updatedProject.id}`, {
+            axios.delete(`${API_BASE_URL}/projectdepartmentlink/project/${updatedProject.id}`, {
                 headers: { Authorization: `Bearer ${token}` }
             }),
         ]);
@@ -199,7 +200,7 @@ const handleEditProject = async (updatedProject) => {
         await Promise.all([
             updatedProject.assetIds && updatedProject.assetIds.length > 0 ? updatedProject.assetIds.map(assetId =>
                 axios.post(
-                    `http://localhost:5149/api/projectassetlink`,
+                    `${API_BASE_URL}/projectassetlink`,
                     { projectId: updatedProject.id, assetId: Number(assetId) },
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
@@ -207,7 +208,7 @@ const handleEditProject = async (updatedProject) => {
 
             updatedProject.riskIds && updatedProject.riskIds.length > 0 ? updatedProject.riskIds.map(riskId =>
                 axios.post(
-                    `http://localhost:5149/api/projectrisklink`,
+                    `${API_BASE_URL}/projectrisklink`,
                     { projectId: updatedProject.id, riskId: Number(riskId) },
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
@@ -215,7 +216,7 @@ const handleEditProject = async (updatedProject) => {
 
             updatedProject.departmentIds && updatedProject.departmentIds.length > 0 ? updatedProject.departmentIds.map(departmentId =>
                 axios.post(
-                    `http://localhost:5149/api/projectdepartmentlink`,
+                    `${API_BASE_URL}/projectdepartmentlink`,
                     { projectId: updatedProject.id, departmentId: Number(departmentId) },
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
@@ -239,7 +240,7 @@ const handleEditProject = async (updatedProject) => {
 
   const handleDeleteProject = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/project/${id}`, {
+      await axios.delete(`${API_BASE_URL}/project/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setProjects((prev) => prev.filter((project) => project.id !== id));

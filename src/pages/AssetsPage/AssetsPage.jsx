@@ -5,6 +5,7 @@ import Asset from "./Asset/Asset";
 import './AssetPage.css';
 
 const AssetsPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [assets, setAssets] = useState([]);
   const [newAssetName, setNewAssetName] = useState("");
   const { role } = useAuth(); 
@@ -19,7 +20,7 @@ const AssetsPage = () => {
       if (!isAuthenticated) return; // Если пользователь не авторизован, не делаем запрос
 
       try {
-        const response = await axios.get("http://localhost:5149/api/asset", {
+        const response = await axios.get(`${API_BASE_URL}/asset`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +42,7 @@ const AssetsPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/asset",
+        `${API_BASE_URL}/asset`,
         { name: newAssetName },
         {
           headers: {
@@ -59,7 +60,7 @@ const AssetsPage = () => {
   const handleEditAsset = async (updatedAsset) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/asset/${updatedAsset.id}`,
+        `${API_BASE_URL}/asset/${updatedAsset.id}`,
         updatedAsset,
         {
           headers: {
@@ -79,7 +80,7 @@ const AssetsPage = () => {
 
   const handleDeleteAsset = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/asset/${id}`, {
+      await axios.delete(`${API_BASE_URL}/asset/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import "./LoginPage.css"; 
 
 const LoginPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
@@ -14,7 +15,7 @@ const LoginPage = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:5149/api/auth/login", {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
         email,
         password,
       });

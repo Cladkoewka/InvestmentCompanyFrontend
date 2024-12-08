@@ -23,7 +23,7 @@ const AnimatedRoutes = () => {
       <CSSTransition
         key={location.pathname}
         classNames="fade"
-        timeout={1000}
+        timeout={0}
       >
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />

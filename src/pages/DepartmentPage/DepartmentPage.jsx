@@ -5,6 +5,7 @@ import Department from "./Department/Department";
 import './DepartmentPage.css';
 
 const DepartmentPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [departments, setDepartments] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState("");
   const { role } = useAuth();
@@ -18,7 +19,7 @@ const DepartmentPage = () => {
       if (!isAuthenticated) return;
   
       try {
-        const response = await axios.get("http://localhost:5149/api/department", {
+        const response = await axios.get(`${API_BASE_URL}/department`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -26,7 +27,7 @@ const DepartmentPage = () => {
         const departmentsWithEmployees = await Promise.all(
           response.data.map(async (department) => {
             const employeeResponse = await axios.get(
-              `http://localhost:5149/api/employee/by-department/${department.id}`,
+              `${API_BASE_URL}/employee/by-department/${department.id}`,
               {
                 headers: {
                   Authorization: `Bearer ${token}`,
@@ -56,7 +57,7 @@ const DepartmentPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/department",
+        `${API_BASE_URL}/department`,
         { name: newDepartmentName },
         {
           headers: {
@@ -74,7 +75,7 @@ const DepartmentPage = () => {
   const handleEditDepartment = async (updatedDepartment) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/department/${updatedDepartment.id}`,
+        `${API_BASE_URL}/department/${updatedDepartment.id}`,
         updatedDepartment,
         {
           headers: {
@@ -94,7 +95,7 @@ const DepartmentPage = () => {
 
   const handleDeleteDepartment = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/department/${id}`, {
+      await axios.delete(`${API_BASE_URL}/department/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

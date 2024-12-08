@@ -4,6 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import './FunctionalPage.css';
 
 const FunctionalPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [profit, setProfit] = useState(null); // Состояние для хранения прибыли
   const [projects, setProjects] = useState([]); // Состояние для хранения проектов
   const [customerName, setCustomerName] = useState(""); // Состояние для ввода customerName
@@ -21,7 +22,7 @@ const FunctionalPage = () => {
     }
 
     try {
-      const response = await axios.get("http://localhost:5149/api/functional/totalprofit", {
+      const response = await axios.get(`${API_BASE_URL}/functional/totalprofit`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,7 +47,7 @@ const FunctionalPage = () => {
     }
 
     try {
-      const response = await axios.get(`http://localhost:5149/api/functional/projects/${customerName}`, {
+      const response = await axios.get(`${API_BASE_URL}/functional/projects/${customerName}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -5,6 +5,7 @@ import Customer from "./Customer/Customer";
 import './CustomersPage.css';
 
 const CustomersPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [customers, setCustomers] = useState([]);
   const [newCustomerName, setNewCustomerName] = useState("");
   const { role } = useAuth();
@@ -18,7 +19,7 @@ const CustomersPage = () => {
       if (!isAuthenticated) return;
 
       try {
-        const response = await axios.get("http://localhost:5149/api/customer", {
+        const response = await axios.get(`${API_BASE_URL}/customer`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -40,7 +41,7 @@ const CustomersPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/customer",
+        `${API_BASE_URL}/customer`,
         { name: newCustomerName },
         {
           headers: {
@@ -58,7 +59,7 @@ const CustomersPage = () => {
   const handleEditCustomer = async (updatedCustomer) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/customer/${updatedCustomer.id}`,
+        `${API_BASE_URL}/customer/${updatedCustomer.id}`,
         updatedCustomer,
         {
           headers: {
@@ -78,7 +79,7 @@ const CustomersPage = () => {
 
   const handleDeleteCustomer = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/customer/${id}`, {
+      await axios.delete(`${API_BASE_URL}/customer/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

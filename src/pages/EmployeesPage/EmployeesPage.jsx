@@ -5,6 +5,7 @@ import Employee from "./Employee/Employee";
 import "./EmployeesPage.css";
 
 const EmployeesPage = () => {
+  const API_BASE_URL = 'http://localhost:5149/api';
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [newEmployee, setNewEmployee] = useState({ firstName: "", lastName: "", departmentId: "" });
@@ -19,10 +20,10 @@ const EmployeesPage = () => {
 
       try {
         const [employeesResponse, departmentsResponse] = await Promise.all([
-          axios.get("http://localhost:5149/api/employee", {
+          axios.get(`${API_BASE_URL}/employee`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
-          axios.get("http://localhost:5149/api/department", {
+          axios.get(`${API_BASE_URL}/department`, {
             headers: { Authorization: `Bearer ${token}` },
           }),
         ]);
@@ -42,7 +43,7 @@ const EmployeesPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5149/api/employee",
+        `${API_BASE_URL}/employee`,
         newEmployee,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -56,12 +57,12 @@ const EmployeesPage = () => {
   const handleEditEmployee = async (updatedEmployee) => {
     try {
       await axios.put(
-        `http://localhost:5149/api/employee/${updatedEmployee.id}`,
+        `${API_BASE_URL}/employee/${updatedEmployee.id}`,
         updatedEmployee,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       // Перезагрузить данные после обновления
-      const response = await axios.get("http://localhost:5149/api/employee", {
+      const response = await axios.get(`${API_BASE_URL}/employee`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEmployees(response.data);
@@ -73,7 +74,7 @@ const EmployeesPage = () => {
 
   const handleDeleteEmployee = async (id) => {
     try {
-      await axios.delete(`http://localhost:5149/api/employee/${id}`, {
+      await axios.delete(`${API_BASE_URL}/employee/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setEmployees((prev) => prev.filter((employee) => employee.id !== id));
