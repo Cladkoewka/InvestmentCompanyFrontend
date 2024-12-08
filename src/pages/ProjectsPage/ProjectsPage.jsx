@@ -85,17 +85,18 @@ const ProjectsPage = () => {
           Promise.all(projectRisksPromises),
         ]);
         
-        
 
         // Обновляем проекты с добавленными данными
         const updatedProjects = projectsResponse.data.map((project, index) => ({
           ...project,
           assetIds: projectAssets[index].data.assetIds,
-          departmentIds: projectDepartments[index].data.deparmentIds,
+          departmentIds: projectDepartments[index].data.departmentIds,
           riskIds: projectRisks[index].data.riskIds,
         }));
 
         setProjects(updatedProjects);
+
+        
         
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -109,41 +110,132 @@ const ProjectsPage = () => {
     if (!isAuthenticated) return;
 
     try {
-      const response = await axios.post(
-        "http://localhost:5149/api/project",
-        newProject,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      setProjects((prev) => [...prev, response.data]);
-      setNewProject({
-        name: "",
-        status: "",
-        profit: 0,
-        cost: 0,
-        deadline: "",
-        customerId: "",
-        editorId: "",
-      });
-    } catch (error) {
-      console.error("Error adding project:", error);
-    }
-  };
+        // Сначала добавляем проект
+        const response = await axios.post(
+            "http://localhost:5149/api/project",
+            newProject,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+        const createdProject = response.data;
 
-  const handleEditProject = async (updatedProject) => {
-    try {
-      await axios.put(
-        `http://localhost:5149/api/project/${updatedProject.id}`,
-        updatedProject,
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
-      const response = await axios.get("http://localhost:5149/api/project", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setProjects(response.data);
+        // Теперь добавляем связи для assets, risks и departments
+        // Приводим значения к числовому типу
+        await Promise.all([
+            newProject.assetIds.map(assetId =>
+                axios.post(
+                    `http://localhost:5149/api/projectassetlink`,
+                    { projectId: createdProject.id, assetId: Number(assetId) }, // Преобразуем в число
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ),
+            newProject.riskIds.map(riskId =>
+                axios.post(
+                    `http://localhost:5149/api/projectrisklink`,
+                    { projectId: createdProject.id, riskId: Number(riskId) }, // Преобразуем в число
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ),
+            newProject.departmentIds.map(departmentId =>
+                axios.post(
+                    `http://localhost:5149/api/projectdepartmentlink`,
+                    { projectId: createdProject.id, departmentId: Number(departmentId) }, // Преобразуем в число
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ),
+        ]);
+
+        const updatedProject = {
+            ...createdProject,
+            assetIds: newProject.assetIds,
+            riskIds: newProject.riskIds,
+            departmentIds: newProject.departmentIds,
+        };
+
+        setProjects((prev) => [...prev, updatedProject]);
+        setNewProject({
+            name: "",
+            status: "",
+            profit: 0,
+            cost: 0,
+            deadline: "",
+            customerId: "",
+            editorId: "",
+            assetIds: [],
+            departmentIds: [],
+            riskIds: [],
+        });
     } catch (error) {
-      console.error("Error editing project:", error);
+        console.error("Error adding project:", error);
     }
-  };
+};
+
+
+const handleEditProject = async (updatedProject) => {
+    try {
+        // Сначала редактируем проект
+        await axios.put(
+            `http://localhost:5149/api/project/${updatedProject.id}`,
+            updatedProject,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        // Удаляем все старые связи
+        await Promise.all([
+            // Удаляем связи с активами
+            axios.delete(`http://localhost:5149/api/projectassetlink/project/${updatedProject.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            }),
+            // Удаляем связи с департаментами
+            axios.delete(`http://localhost:5149/api/projectrisklink/project/${updatedProject.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            }),
+            // Удаляем связи с рисками
+            axios.delete(`http://localhost:5149/api/projectdepartmentlink/project/${updatedProject.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            }),
+        ]);
+
+        // Добавляем новые
+        await Promise.all([
+            updatedProject.assetIds && updatedProject.assetIds.length > 0 ? updatedProject.assetIds.map(assetId =>
+                axios.post(
+                    `http://localhost:5149/api/projectassetlink`,
+                    { projectId: updatedProject.id, assetId: Number(assetId) },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ) : [],
+
+            updatedProject.riskIds && updatedProject.riskIds.length > 0 ? updatedProject.riskIds.map(riskId =>
+                axios.post(
+                    `http://localhost:5149/api/projectrisklink`,
+                    { projectId: updatedProject.id, riskId: Number(riskId) },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ) : [],
+
+            updatedProject.departmentIds && updatedProject.departmentIds.length > 0 ? updatedProject.departmentIds.map(departmentId =>
+                axios.post(
+                    `http://localhost:5149/api/projectdepartmentlink`,
+                    { projectId: updatedProject.id, departmentId: Number(departmentId) },
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+            ) : [],
+        ]);
+        
+        
+        setProjects((prevProjects) =>
+            prevProjects.map((project) =>
+                project.id === updatedProject.id ? updatedProject : project
+            )
+        );
+
+        
+
+    } catch (error) {
+        console.error("Error editing project:", error);
+    }
+};
+
 
   const handleDeleteProject = async (id) => {
     try {
@@ -225,7 +317,10 @@ const ProjectsPage = () => {
               </select>
               <select
                 value={newProject.assetIds}
-                onChange={(e) => setNewProject({ ...newProject, assetIds: e.target.value })}
+                onChange={(e) => setNewProject({
+                    ...newProject,
+                    assetIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
+                })}
                 multiple
                 >
                 {assets.map((asset) => (
@@ -237,7 +332,10 @@ const ProjectsPage = () => {
 
                 <select
                 value={newProject.departmentIds}
-                onChange={(e) => setNewProject({ ...newProject, departmentIds: e.target.value })}
+                onChange={(e) => setNewProject({
+                    ...newProject,
+                    departmentIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
+                })}
                 multiple
                 >
                 {departments.map((department) => (
@@ -249,7 +347,10 @@ const ProjectsPage = () => {
 
                 <select
                 value={newProject.riskIds}
-                onChange={(e) => setNewProject({ ...newProject, riskIds: e.target.value })}
+                onChange={(e) => setNewProject({
+                    ...newProject,
+                    riskIds: Array.isArray(e.target.value) ? e.target.value : [e.target.value]  // Преобразуем в массив
+                })}
                 multiple
                 >
                 {risks.map((risk) => (
@@ -258,6 +359,7 @@ const ProjectsPage = () => {
                     </option>
                 ))}
                 </select>
+
 
               <button onClick={handleAddProject}>Add Project</button>
             </div>

@@ -88,6 +88,7 @@ const Project = ({ project, customers, editors, risks, departments, assets, isAd
             value={editedProject.riskIds}
             onChange={(e) => handleSelectionChange(e, (values) => setEditedProject({ ...editedProject, riskIds: values }))}
           >
+            
             {risks.map((risk) => (
               <option key={risk.id} value={risk.id}>
                 {risk.type}
@@ -149,39 +150,54 @@ const Project = ({ project, customers, editors, risks, departments, assets, isAd
           <div>
             <strong>Editor:</strong> {editors.find((e) => e.id === project.editorId)?.fullName || "Unknown"}
           </div>
+
+
           <div>
             <strong>Assets:</strong>
             <ul>
-              {assets
-                .filter((asset) => project.assetIds && project.assetIds.includes(asset.id)) 
-                .map((asset) => (
-                  <li key={asset.id}>{asset.name}</li>
-                ))}
+              {assets.filter((asset) =>
+                project.assetIds && project.assetIds.map(Number).includes(asset.id)
+              ).length > 0
+                ? assets
+                    .filter((asset) =>
+                      project.assetIds && project.assetIds.map(Number).includes(asset.id)
+                    )
+                    .map((asset) => <li key={asset.id}>{asset.name}</li>)
+                : <li>N/A</li>}
             </ul>
           </div>
 
           <div>
             <strong>Departments:</strong>
             <ul>
-              {departments
-                .filter((department) => project.departmentIds && project.departmentIds.includes(department.id)) 
-                .map((department) => (
-                  <li key={department.id}>{department.name}</li>
-                ))}
+              {departments.filter((department) =>
+                project.departmentIds &&
+                project.departmentIds.map(Number).includes(department.id)
+              ).length > 0
+                ? departments
+                    .filter((department) =>
+                      project.departmentIds &&
+                      project.departmentIds.map(Number).includes(department.id)
+                    )
+                    .map((department) => <li key={department.id}>{department.name}</li>)
+                : <li>N/A</li>}
             </ul>
           </div>
 
           <div>
             <strong>Risks:</strong>
             <ul>
-              {risks
-                .filter((risk) => project.riskIds && project.riskIds.includes(risk.id)) 
-                .map((risk) => (
-                  <li key={risk.id}>{risk.type}</li>
-                ))}
+              {risks.filter((risk) =>
+                project.riskIds && project.riskIds.map(Number).includes(risk.id)
+              ).length > 0
+                ? risks
+                    .filter((risk) =>
+                      project.riskIds && project.riskIds.map(Number).includes(risk.id)
+                    )
+                    .map((risk) => <li key={risk.id}>{risk.type}</li>)
+                : <li>N/A</li>}
             </ul>
           </div>
-
 
 
           {isAdmin && (
