@@ -10,6 +10,8 @@ Investment Projects Management is a web platform designed to manage investments,
 
 ---
 
+Backend Repository: [https://github.com/Cladkoewka/InvestmentCompanyAPI](https://github.com/Cladkoewka/InvestmentCompanyAPI)
+
 ## Technologies
 
 - **Frontend**:
