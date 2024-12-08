@@ -11,6 +11,7 @@ import DepartmentPage from './pages/DepartmentPage/DepartmentPage';
 import EmployeesPage from './pages/EmployeesPage/EmployeesPage';
 import RisksPage from './pages/RisksPage/RisksPage';
 import EditorPage from './pages/EditorPage/EditorPage';
+import ProjectsPage from './pages/ProjectsPage/ProjectsPage';
 import Footer from './components/Footer/Footer';
 
 const AnimatedRoutes = () => {
@@ -26,6 +27,7 @@ const AnimatedRoutes = () => {
         <Routes location={location}>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/projects" element={<ProjectsPage />} />
           <Route path="/assets" element={<AssetsPage />} />
           <Route path="/customers" element={<CustomersPage />} />
           <Route path="/departments" element={<DepartmentPage />} />

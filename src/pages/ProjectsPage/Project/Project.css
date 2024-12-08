@@ -1,0 +1,131 @@
+.project-item {
+    background-color: var(--color-white);
+    border-radius: 10px;
+    box-shadow: 0 4px 20px var(--color-shadow-light);
+    padding: 1rem;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column; /* Вертикальное расположение содержимого */
+}
+
+.project-item span {
+    font-size: 1.2rem;
+    color: var(--color-text);
+    font-weight: bold;
+    margin-bottom: 0.5rem; /* Отступ снизу для отображаемого имени */
+    margin-left: 1rem;
+}
+
+.project-item .related-info p {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    margin: 0.5rem 0;
+    padding-left: 1rem;
+}
+
+.project-item .related-info strong {
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.project-item input {
+    padding: 0.6rem;
+    border-radius: 5px;
+    border: 1px solid var(--color-border);
+    font-size: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+}
+
+.project-item input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+}
+
+.project-item button {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    padding: 0.6rem 1.2rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    margin-left: 1rem; /* Отступ между кнопками */
+}
+
+.project-item button:hover {
+    background-color: var(--color-primary-hover);
+    transform: scale(1.05);
+}
+
+.project-item .button-container {
+    display: flex;
+    align-items: center;
+    margin-left: 1rem;
+    margin-top: 1rem; /* Отступ сверху для кнопок */
+}
+
+.project-item .button-container button {
+    margin-left: 1rem; /* Отступ между кнопками */
+}
+
+.project-item .button-container button:first-child {
+    margin-left: 0; /* Убираем отступ для первой кнопки */
+}
+
+.project-list {
+    margin-top: 1rem;
+    padding: 1rem;
+    background-color: var(--color-light-gray);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px var(--color-shadow-light);
+    width: 100%;
+}
+
+.project-list h4 {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: bold;
+}
+
+.project-list ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.project-list ul li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--color-border-light);
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+}
+
+.project-list ul li:last-child {
+    border-bottom: none; /* Убираем линию для последнего элемента */
+}
+
+.project-list p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    margin: 0;
+}
+
+.project-details {
+    padding: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: var(--color-light);
+  }
+  
+  .project-details div {
+    margin: 5px 0;
+  }
+  
+  .project-details strong {
+    color: #333;
+  }
+  
