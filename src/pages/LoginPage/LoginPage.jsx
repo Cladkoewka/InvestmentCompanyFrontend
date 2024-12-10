@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import "./LoginPage.css"; 
 
 const LoginPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();

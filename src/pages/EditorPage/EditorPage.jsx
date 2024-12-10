@@ -5,7 +5,7 @@ import Editor from "./Editor/Editor";
 import './EditorPage.css';
 
 const EditorPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [editors, setEditors] = useState([]);
   const [newFullName, setNewFullName] = useState("");
   const [newEmail, setNewEmail] = useState("");

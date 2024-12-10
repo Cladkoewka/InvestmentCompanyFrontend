@@ -5,7 +5,7 @@ import Project from "./Project/Project";
 import "./ProjectsPage.css";
 
 const ProjectsPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [projects, setProjects] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [editors, setEditors] = useState([]);

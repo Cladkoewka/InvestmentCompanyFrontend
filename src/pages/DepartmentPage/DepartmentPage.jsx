@@ -5,7 +5,7 @@ import Department from "./Department/Department";
 import './DepartmentPage.css';
 
 const DepartmentPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [departments, setDepartments] = useState([]);
   const [newDepartmentName, setNewDepartmentName] = useState("");
   const { role } = useAuth();

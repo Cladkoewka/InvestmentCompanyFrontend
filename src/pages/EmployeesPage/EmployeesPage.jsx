@@ -5,7 +5,7 @@ import Employee from "./Employee/Employee";
 import "./EmployeesPage.css";
 
 const EmployeesPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
   const [newEmployee, setNewEmployee] = useState({ firstName: "", lastName: "", departmentId: "" });

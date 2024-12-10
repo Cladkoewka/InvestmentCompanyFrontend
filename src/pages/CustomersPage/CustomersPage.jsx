@@ -5,7 +5,7 @@ import Customer from "./Customer/Customer";
 import './CustomersPage.css';
 
 const CustomersPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [customers, setCustomers] = useState([]);
   const [newCustomerName, setNewCustomerName] = useState("");
   const { role } = useAuth();

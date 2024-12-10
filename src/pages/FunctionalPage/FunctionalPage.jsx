@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import './FunctionalPage.css';
 
 const FunctionalPage = () => {
-  const API_BASE_URL = 'http://localhost:5149/api';
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [profit, setProfit] = useState(null); // Состояние для хранения прибыли
   const [projects, setProjects] = useState([]); // Состояние для хранения проектов
   const [customerName, setCustomerName] = useState(""); // Состояние для ввода customerName
